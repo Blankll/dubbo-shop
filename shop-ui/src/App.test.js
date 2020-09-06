@@ -1,9 +1,10 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { mount, shallow } from 'enzyme';
 import App from './App';
+import Navbar from "./components/Navbar/Navbar";
 
 test('renders learn react link', () => {
-  const { getByText } = render(<App />);
-  const linkElement = getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  const wrapper = mount(<App />);
+
+  expect(wrapper.find(Navbar)).toHaveLength(1);
 });
