@@ -1,0 +1,24 @@
+{
+  "code": 2000,
+  "message": "success",
+  "data": [
+    {
+      "id": 1,
+      "name": "Nokia Lumia 920",
+      "price": 5999,
+      "desc": "Nokia Lumia 920, new generation smart phone, with windows phone 7 system.",
+      "quantity": 300,
+      "created": "2020-04-21 18:43:06",
+      "updated": "2020-04-21 18:43:06"
+    },
+    {
+      "id": 2,
+      "name": "IPhone 4S",
+      "price": 5299,
+      "desc": "IPhone 4S, new generation smart phone, with IOS 6 system.",
+      "quantity": 900,
+      "created": "2019-01-31 21:47:18",
+      "updated": "2019-01-31 21:47:18"
+    }
+  ]
+}
