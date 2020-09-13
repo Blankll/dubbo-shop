@@ -14,7 +14,6 @@ class Home extends React.Component {
     const goods = this.state.goods;
     return(
       <div>
-        this is home page
         {goods?.map(good => (
           <Good key={good.id} {...good} />
         ))}

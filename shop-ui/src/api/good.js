@@ -3,7 +3,7 @@ import config from '../utils/config'
 
 const goodApi = {
   getAvailableGoods: async () => {
-    const resp = await axios.get(`${config.prefix}/good`);
+    const resp = await axios.get(`${config.prefix}/api/goods`);
 
     return resp.data;
   }
