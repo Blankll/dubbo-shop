@@ -37,22 +37,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class GoodControllerTest {
     @Autowired
     private MockMvc mockMvc;
-    @InjectMocks
+    @MockBean
     private GoodService goodService;
+    @MockBean
+    private GoodController goodController;
     @MockBean
     private SecurityUserDetailService securityUserDetailService;
 
-    @BeforeEach
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
-    }
-
     @Test
     void shouldGetAllAvailableGoods() throws Exception {
-        List<Good> goods = Collections.singletonList(new GoodBuilder().withName("IPhone").build());
+        List<Good> goods = Collections.singletonList(new GoodBuilder().withId(1L).withName("IPhone").build());
         when(goodService.getAllAvailableGoods()).thenReturn(goods);
-
-        mockMvc.perform(get("/good")
+        goodController.setGoodService(goodService);
+        mockMvc.perform(get("/goods")
                     .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data[0].name").value("IPhone"));

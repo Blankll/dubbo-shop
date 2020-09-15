@@ -3,6 +3,7 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
+  border-bottom: gainsboro 1px solid;
 }
 
 .navbar__logo-name {

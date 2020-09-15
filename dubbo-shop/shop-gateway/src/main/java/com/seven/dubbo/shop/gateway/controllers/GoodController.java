@@ -20,11 +20,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/goods")
 public class GoodController {
+
     @DubboReference
     private GoodService goodService;
 
+    public void setGoodService(GoodService goodService) {
+        this.goodService = goodService;
+    }
     @GetMapping
     public Resp<List<Good>> getAllAvailableGoods() {
+
         List<Good> goods = goodService.getAllAvailableGoods();
 
         return new Resp<>(goods);
