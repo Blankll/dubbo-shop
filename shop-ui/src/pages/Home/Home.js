@@ -1,5 +1,5 @@
 import React from "react";
-import goodApi from "../../api/good";
+import goodApi from "../../api/Good";
 import Good from "../../components/Good/Good";
 
 class Home extends React.Component {

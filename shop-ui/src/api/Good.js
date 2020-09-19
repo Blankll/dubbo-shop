@@ -1,7 +1,7 @@
 import axios from 'axios';
 import config from '../utils/config'
 
-const goodApi = {
+const GoodApi = {
   getAvailableGoods: async () => {
     const resp = await axios.get(`${config.prefix}/api/goods`);
 
@@ -9,4 +9,4 @@ const goodApi = {
   }
 }
 
-export default goodApi;
+export default GoodApi;

@@ -1,7 +1,8 @@
 import React from "react";
-import { Card, Button } from "react-bootstrap";
+import {Card, Button} from "react-bootstrap";
 import './good.css'
-export default function Good (props) {
+
+export default function Good(props) {
   return (
     <Card body className="item">
       <div className="item__name">{props.name}</div>

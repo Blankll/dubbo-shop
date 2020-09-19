@@ -1,5 +1,9 @@
 package com.seven.dubbo.shop.gateway.services;
 
+import com.seven.dubbo.shop.api.UserService;
+import com.seven.dubbo.shop.exceptions.ExternalException;
+import com.seven.dubbo.shop.exceptions.enums.ExceptionEnum;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -7,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * @author: Blank
@@ -16,8 +21,15 @@ import java.util.ArrayList;
  */
 @Service
 public class SecurityUserDetailService implements UserDetailsService {
+    @DubboReference
+    private UserService userService;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return new User("blank", "0707", new ArrayList<>());
+        Optional<com.seven.dubbo.shop.entities.User> optionalUser = userService.findByEmail(username);
+        if (!optionalUser.isPresent()) {
+            throw new UsernameNotFoundException("user not exists");
+        }
+        com.seven.dubbo.shop.entities.User user = optionalUser.get();
+        return new User(user.getEmail(), user.getPassword(), new ArrayList<>());
     }
 }

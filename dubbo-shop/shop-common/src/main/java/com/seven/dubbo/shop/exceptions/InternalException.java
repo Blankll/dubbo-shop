@@ -1,6 +1,6 @@
-package com.seven.dubbo.shop.gateway.exceptions;
+package com.seven.dubbo.shop.exceptions;
 
-import com.seven.dubbo.shop.gateway.enums.ExceptionEnum;
+import com.seven.dubbo.shop.exceptions.enums.ExceptionEnum;
 
 /**
  * @author: Blank

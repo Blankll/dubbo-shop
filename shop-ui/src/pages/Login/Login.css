@@ -1,0 +1,9 @@
+.login-card {
+  max-width: 800px;
+  margin: 100px auto;
+}
+
+.input-item {
+  margin: 20px 0;
+  min-height: 50px;
+}

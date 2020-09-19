@@ -1,7 +1,7 @@
 import React from "react";
 import Home from "./Home";
 import { shallow } from 'enzyme'
-import goodApi from "../../api/good";
+import goodApi from "../../api/Good";
 import mockGoods from '../../mock/goods'
 import Good from "../../components/Good/Good";
 jest.mock('../../api/good')

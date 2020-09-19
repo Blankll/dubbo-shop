@@ -1,11 +1,12 @@
 package com.seven.dubbo.shop.gateway.aspects;
 
-import com.seven.dubbo.shop.gateway.exceptions.ExternalException;
-import com.seven.dubbo.shop.gateway.exceptions.InternalException;
+import com.seven.dubbo.shop.exceptions.ExternalException;
+import com.seven.dubbo.shop.exceptions.InternalException;
 import com.seven.dubbo.shop.gateway.utils.Resp;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -66,12 +67,16 @@ public class ExceptionHandler {
             resp.setCode(4000);
             status = HttpStatus.BAD_REQUEST;
         }
+        else if (e instanceof UsernameNotFoundException) {
+            resp.setCode(4000);
+            resp.addMessage(e.getMessage());
+        }
         // 其他未知错误
         else {
             // @TODO log 对于未知的异常应进行日志报警等操作,方便追踪
             String message = isDebug ? e.getMessage() : "系统错误,请联系管理员";
             resp = new Resp<String>(5000, message, null);
         }
-        return  new ResponseEntity(resp, status);
+        return  new ResponseEntity<>(resp, status);
     }
 }

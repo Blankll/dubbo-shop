@@ -1,4 +1,4 @@
-package com.seven.dubbo.shop.gateway.enums;
+package com.seven.dubbo.shop.exceptions.enums;
 
 import org.springframework.http.HttpStatus;
 
