@@ -17,11 +17,13 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 /**
  * @author: Blank
@@ -48,7 +50,17 @@ public class UserController {
         User user = new User();
         BeanUtils.copyProperties(request, user);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userService.create(user);
+        Long userId = userService.create(user);
+        user.setId(userId);
+        user.setPassword(null);
+
+        return new Resp<>(user);
+    }
+
+    @GetMapping
+    public Resp<User> findUserInfo(Principal principal) {
+        User user = userService.findByEmail(principal.getName());
+        if (null != user) { user.setPassword(null); }
         return new Resp<>(user);
     }
 
@@ -64,7 +76,7 @@ public class UserController {
             throw new ExternalException(ExceptionEnum.USER_NOT_EXISTS);
         }
         UserDetails userDetails = userDetailService.loadUserByUsername(loginRequest.getUsername());
-        String token = jwtUtil.getToken(loginRequest.getUsername());
+        String token = jwtUtil.getToken(userDetails.getUsername());
 
         return new Resp<String>(token);
     }

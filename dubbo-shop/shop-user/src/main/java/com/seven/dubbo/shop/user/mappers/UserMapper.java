@@ -18,5 +18,5 @@ public interface UserMapper {
     @Insert("INSERT INTO `users`(`id`, `email`, `username`, `password`, `phone`) VALUES(#{id}, #{email}, #{username}, #{password}, #{phone});")
     void create(User user);
     @Select("SELECT * FROM `users` WHERE email=#{email};")
-    Optional<User> findByEmail(String email);
+    User findByEmail(String email);
 }

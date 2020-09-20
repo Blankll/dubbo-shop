@@ -9,38 +9,13 @@ import org.springframework.http.HttpStatus;
  * @date: 1/19/20
  * @version: 1.0
  */
-public class BaseException extends Exception {
-    protected HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-    protected Integer code = 5000;
-    protected String message;
-
+public class BaseException extends RuntimeException {
+    private ExceptionEnum exceptionEnum;
     public BaseException(ExceptionEnum exceptionEnum) {
-        this.status = exceptionEnum.getStatus();
-        this.code = exceptionEnum.getCode();
-        this.message = exceptionEnum.getMessage();
-    }
-    public HttpStatus getStatus() {
-        return status;
+        this.exceptionEnum = exceptionEnum;
     }
 
-    public void setStatus(HttpStatus status) {
-        this.status = status;
-    }
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public void setCode(Integer code) {
-        this.code = code;
-    }
-
-    @Override
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    public ExceptionEnum getExceptionEnum() {
+        return exceptionEnum;
     }
 }

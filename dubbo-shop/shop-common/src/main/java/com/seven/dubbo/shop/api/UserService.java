@@ -13,5 +13,5 @@ import java.util.Optional;
  */
 public interface UserService {
     Long create(User user) throws ExternalException;
-    Optional<User> findByEmail(String email);
+    User findByEmail(String email);
 }

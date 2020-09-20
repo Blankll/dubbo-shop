@@ -2,6 +2,7 @@ package com.seven.dubbo.shop.gateway.aspects;
 
 import com.seven.dubbo.shop.exceptions.ExternalException;
 import com.seven.dubbo.shop.exceptions.InternalException;
+import com.seven.dubbo.shop.exceptions.enums.ExceptionEnum;
 import com.seven.dubbo.shop.gateway.utils.Resp;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -34,15 +35,17 @@ public class ExceptionHandler {
         // 用户自定义请求失败
         if (e instanceof ExternalException) {
             ExternalException externalException = (ExternalException) e;
-            resp.setCode(externalException.getCode());
-            resp.addMessage(e.getMessage());
-            status = externalException.getStatus();
+            ExceptionEnum exceptionEnum = externalException.getExceptionEnum();
+            resp.setCode(exceptionEnum.getCode());
+            resp.addMessage(exceptionEnum.getMessage());
+            status = exceptionEnum.getStatus();
         }
         // 用户自定义服务器内部错误
         else if (e instanceof InternalException) {
             InternalException internalException = (InternalException) e;
+            ExceptionEnum exceptionEnum = internalException.getExceptionEnum();
             resp.addMessage(isDebug ? e.getMessage() : "系统错误,请联系管理员");
-            resp.setCode(internalException.getCode());
+            resp.setCode(exceptionEnum.getCode());
             // @TODO log 应进行日志报警等操作,方便追踪
         }
         // PathVariable 参数绑定失败

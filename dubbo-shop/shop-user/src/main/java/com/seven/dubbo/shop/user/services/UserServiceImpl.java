@@ -12,7 +12,6 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.sql.SQLException;
 import java.util.Optional;
 
 /**
@@ -41,7 +40,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
+    public User findByEmail(String email) {
         return userMapper.findByEmail(email);
     }
 }

@@ -1,5 +1,6 @@
 package com.seven.dubbo.shop.gateway.configures;
 
+import com.seven.dubbo.shop.gateway.aspects.AuthenticateFilter;
 import com.seven.dubbo.shop.gateway.services.SecurityUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +17,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -42,6 +44,9 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
     @Autowired
     private SecurityUserDetailService userDetailService;
     @Autowired
+    private AuthenticateFilter authenticateFilter;
+
+    @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailService);
     }
@@ -49,12 +54,13 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
-                .authorizeRequests().antMatchers(HttpMethod.POST, "/user/login").permitAll()
-                .antMatchers(HttpMethod.POST, "/user/register").permitAll()
+                .authorizeRequests().antMatchers(HttpMethod.POST, "/user/login").not().authenticated()
+                .antMatchers(HttpMethod.POST, "/user/register").not().authenticated()
                 .antMatchers(HttpMethod.GET, "/goods").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.addFilterBefore(authenticateFilter, UsernamePasswordAuthenticationFilter.class);
     }
     @Bean
     public AuthenticationManager customAuthenticationManager() throws Exception {
