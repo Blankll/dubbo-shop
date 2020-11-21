@@ -1,0 +1,73 @@
+version: '3.1'
+
+services:
+  zoo1:
+    image: zookeeper
+    restart: always
+    hostname: zoo1
+    ports:
+      - 2181:2181
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
+
+  zoo2:
+    image: zookeeper
+    restart: always
+    hostname: zoo2
+    ports:
+      - 2182:2181
+    environment:
+      ZOO_MY_ID: 2
+      ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=0.0.0.0:2888:3888;2181 server.3=zoo3:2888:3888;2181
+
+  zoo3:
+    image: zookeeper
+    restart: always
+    hostname: zoo3
+    ports:
+      - 2183:2181
+    environment:
+      ZOO_MY_ID: 3
+      ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=0.0.0.0:2888:3888;2181
+
+  mariadb:
+    image: mariadb
+    restart: always
+    hostname: mariadb
+    ports:
+      - 33060:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: shop@1996
+  shop-ui:
+    image: node:10.18.1-alpine
+    ports:
+    - 3000:3000
+    - 9010:9010
+    volumes:
+    - "${PWD}/shop-ui:/shop-ui"
+    working_dir: /shop-ui
+    command: bash -c "npm install && npm start"
+  shop-common:
+    image: maven:3.6.3-openjdk-11-slim
+    volumes:
+      - "${PWD}/shop-service:/dubbo-shop/shop-service"
+      - mvn-cache:/root/.m2/repository
+    working_dir: /dubbo-shop/shop-service/shop-common
+    command: bash -c "mvn install"
+  shop-goods:
+    image: maven:3.6.3-openjdk-11-slim
+    depends_on:
+      - zoo1
+      - zoo2
+      - zoo3
+      - mariadb
+      - shop-common
+    volumes:
+    - "${PWD}/shop-service:/dubbo-shop/shop-service"
+    - mvn-cache:/root/.m2/repository
+    working_dir: /dubbo-shop/shop-service/shop-user
+    command: bash -c "mvn spring-boot:run"
+
+volumes:
+  mvn-cache:
