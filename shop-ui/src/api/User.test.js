@@ -1,7 +1,7 @@
 import axios from 'axios';
 import UserApi from './User'
-jest.mock('axios');
 jest.mock('../utils/config', () => { return { prefix: 'base.url.com' }});
+jest.mock('axios');
 
 describe('UserApi', () => {
   const user = {
@@ -14,7 +14,11 @@ describe('UserApi', () => {
     it('register new a new user ', async  () => {
       axios.post.mockResolvedValue({ data: {}});
       await UserApi.register(user);
-      expect(axios.post).toHaveBeenCalledWith('base.url.com/api/user', user);
+      let formData = new FormData();
+      for (let key in user) {
+        formData.append(key, user[key])
+      }
+      expect(axios.post).toHaveBeenCalledWith('base.url.com/api/user/register', formData);
     });
 
     it('should not hide request error', async () => {

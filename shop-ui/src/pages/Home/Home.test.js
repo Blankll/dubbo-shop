@@ -4,7 +4,7 @@ import { shallow } from 'enzyme'
 import goodApi from "../../api/Good";
 import mockGoods from '../../mock/goods'
 import Good from "../../components/Good/Good";
-jest.mock('../../api/good')
+jest.mock('../../api/Good')
 describe('<Home />', () => {
   const flushPromises = () => new Promise(setImmediate);
   it('should fetch all goods in home page', async () => {
