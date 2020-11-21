@@ -5,9 +5,15 @@ name: shop-service-build
 
 on:
   push:
-    branches: [ master ]
+    branches: [ '**' ]
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
+      - dev
+
+defaults:
+  run:
+    working-directory: shop-service
 
 jobs:
   build:
@@ -21,4 +27,4 @@ jobs:
       with:
         java-version: 11
     - name: Build with Maven
-      run: mvn -B package --file shop-service/pom.xml
+      run: mvn -B package --file pom.xml
