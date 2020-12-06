@@ -53,6 +53,7 @@ services:
       - mariadb
     volumes:
     - "${PWD}/shop-service:/dubbo-shop/shop-service"
+    - "${PWD}/setting.xml:/root/.m2/setting.xml"
     - mvn-cache:/root/.m2/repository
     working_dir: /dubbo-shop/shop-service
     command: bash -c "mvn install -DskipTests && cd shop-user && mvn spring-boot:run"
