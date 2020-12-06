@@ -17,13 +17,13 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>shop-gateway</module>
         <module>shop-common</module>
         <module>shop-coupon</module>
         <module>shop-goods</module>
         <module>shop-order</module>
         <module>shop-pay</module>
         <module>shop-user</module>
+        <module>shop-gateway</module>
     </modules>
     <dependencyManagement>
         <dependencies>
