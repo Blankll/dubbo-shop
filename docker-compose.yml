@@ -43,9 +43,9 @@ services:
     volumes:
     - "${PWD}/shop-ui:/shop-ui"
     working_dir: /shop-ui
-    command: bash -c "npm install && npm start"
+    command: /bin/bash -c "npm install && npm start"
   shop-goods:
-    image: maven:3.6.3-openjdk-11-slim
+    image: gradle:6.8-jdk11
     depends_on:
       - zoo1
       - zoo2
@@ -53,9 +53,10 @@ services:
       - mariadb
     volumes:
     - "${PWD}/shop-service:/dubbo-shop/shop-service"
-    - mvn-cache:/root/.m2/repository
-    working_dir: /dubbo-shop/shop-service
-    command: bash -c "mvn install -DskipTests && cd shop-user && mvn spring-boot:run"
+    - "${PWD}/init.gradle:/root/.gradle/init.gradle"
+    - gradle-cache:/root/.gradle/caches
+    working_dir: /dubbo-shop/shop-service/shop-goods
+    command: bash -c "gradle bootRun"
 
 volumes:
-  mvn-cache:
+  gradle-cache:
