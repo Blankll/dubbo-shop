@@ -3,7 +3,6 @@ version: '3.1'
 services:
   zoo1:
     image: zookeeper
-    restart: always
     hostname: zoo1
     ports:
       - 2181:2181
@@ -13,7 +12,6 @@ services:
 
   zoo2:
     image: zookeeper
-    restart: always
     hostname: zoo2
     ports:
       - 2182:2181
@@ -23,7 +21,6 @@ services:
 
   zoo3:
     image: zookeeper
-    restart: always
     hostname: zoo3
     ports:
       - 2183:2181
@@ -33,9 +30,24 @@ services:
 
   mariadb:
     image: mariadb
-    restart: always
     hostname: mariadb
     ports:
-    - 33060:3306
+      - 33060:3306
     environment:
       MYSQL_ROOT_PASSWORD: shop@1996
+  shop-goods:
+    image: gradle:6.8-jdk11
+    depends_on:
+      - zoo1
+      - zoo2
+      - zoo3
+      - mariadb
+    volumes:
+    - "./:/shop-services"
+    - "./init.gradle:/root/.gradle/init.gradle"
+    - gradle-cache:/root/.gradle/caches
+    working_dir: /shop-services/shop-goods
+    command: bash -c "gradle bootRun"
+
+volumes:
+  gradle-cache:
