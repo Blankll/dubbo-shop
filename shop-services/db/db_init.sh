@@ -6,5 +6,3 @@ DROP USER IF EXISTS 'shop'@'%';
 CREATE USER 'shop'@'%' IDENTIFIED BY 'shop&&1234';
 GRANT ALL ON shop.* TO 'shop'@'%';
 EOF
-
-
