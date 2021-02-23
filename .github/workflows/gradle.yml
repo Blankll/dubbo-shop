@@ -13,7 +13,7 @@ on:
 
 defaults:
   run:
-    working-directory: shop-service
+    working-directory: shop-services
 
 jobs:
   build:
