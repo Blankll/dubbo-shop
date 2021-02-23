@@ -5,6 +5,7 @@ mvn*
 !**/src/main/**
 !**/src/test/**
 gradle*
+!gradle.yml
 .gradle/
 ### STS ###
 .apt_generated
